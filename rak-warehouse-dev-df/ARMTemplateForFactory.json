@@ -82,6 +82,26 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/pipelines/Wait Pipeline')]"
 			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/integrationRuntime1')]",
+			"type": "Microsoft.DataFactory/factories/integrationRuntimes",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "Managed",
+				"typeProperties": {
+					"computeProperties": {
+						"location": "East US",
+						"dataFlowProperties": {
+							"computeType": "General",
+							"coreCount": 8,
+							"timeToLive": 10,
+							"cleanup": false
+						}
+					}
+				}
+			},
+			"dependsOn": []
 		}
 	]
 }
