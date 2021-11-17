@@ -4,6 +4,7 @@
 		"activities": [
 			{
 				"name": "Wait-Test-AzDo-2",
+				"description": "Added a New Pipeline",
 				"type": "Wait",
 				"dependsOn": [],
 				"userProperties": [],
