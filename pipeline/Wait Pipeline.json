@@ -30,6 +30,12 @@
 						"type": "IntegrationRuntimeReference"
 					},
 					"method": "GET",
+					"linkedServices": [
+						{
+							"referenceName": "AKV_Test",
+							"type": "LinkedServiceReference"
+						}
+					],
 					"authentication": {
 						"type": "MSI",
 						"resource": "\thttps://vault.azure.net"
