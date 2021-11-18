@@ -7,6 +7,10 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "rak-warehouse-dev-df"
 		},
+		"AKV_Test_properties_typeProperties_baseUrl": {
+			"type": "string",
+			"defaultValue": "https://keyvaultlab1.vault.azure.net/"
+		},
 		"containerUri": {
 			"type": "string",
 			"metadata": "URI to storage account containing linked ARM templates"
@@ -33,6 +37,9 @@
 				"parameters": {
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
+					},
+					"AKV_Test_properties_typeProperties_baseUrl": {
+						"value": "[parameters('AKV_Test_properties_typeProperties_baseUrl')]"
 					}
 				}
 			},

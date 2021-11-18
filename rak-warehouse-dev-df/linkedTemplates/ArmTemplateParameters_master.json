@@ -5,6 +5,9 @@
 		"factoryName": {
 			"value": "rak-warehouse-dev-df"
 		},
+		"AKV_Test_properties_typeProperties_baseUrl": {
+			"value": "https://keyvaultlab1.vault.azure.net/"
+		},
 		"containerUri": {
 			"value": ""
 		},

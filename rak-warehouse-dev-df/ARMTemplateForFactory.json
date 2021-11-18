@@ -6,6 +6,10 @@
 			"type": "string",
 			"metadata": "Data Factory name",
 			"defaultValue": "rak-warehouse-dev-df"
+		},
+		"AKV_Test_properties_typeProperties_baseUrl": {
+			"type": "string",
+			"defaultValue": "https://keyvaultlab1.vault.azure.net/"
 		}
 	},
 	"variables": {
@@ -72,6 +76,12 @@
 							},
 							"method": "GET",
 							"headers": {},
+							"linkedServices": [
+								{
+									"referenceName": "AKV_Test",
+									"type": "LinkedServiceReference"
+								}
+							],
 							"authentication": {
 								"type": "MSI",
 								"resource": "\thttps://vault.azure.net"
@@ -92,7 +102,10 @@
 						"userProperties": [],
 						"typeProperties": {
 							"variableName": "myVariable",
-							"value": "@activity('Web1').output.value"
+							"value": {
+								"value": "@activity('Web1').output.value",
+								"type": "Expression"
+							}
 						}
 					}
 				],
@@ -109,8 +122,22 @@
 				"annotations": []
 			},
 			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AKV_Test')]",
 				"[concat(variables('factoryId'), '/integrationRuntimes/integrationRuntime1')]"
 			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AKV_Test')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureKeyVault",
+				"typeProperties": {
+					"baseUrl": "[parameters('AKV_Test_properties_typeProperties_baseUrl')]"
+				}
+			},
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/Test-AzDo-Dev')]",
