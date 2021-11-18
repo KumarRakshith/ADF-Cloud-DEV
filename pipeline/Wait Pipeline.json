@@ -47,7 +47,11 @@
 						]
 					}
 				],
-				"userProperties": []
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "myVariable",
+					"value": "@activity('Web1').output.value"
+				}
 			}
 		],
 		"variables": {
