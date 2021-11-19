@@ -117,7 +117,7 @@
 							],
 							"authentication": {
 								"type": "MSI",
-								"resource": "\thttps://vault.azure.net"
+								"resource": "https://vault.azure.net"
 							}
 						}
 					},
@@ -150,6 +150,102 @@
 					"myVariable": {
 						"type": "String",
 						"defaultValue": "@activity('Web1').output.value"
+					}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AKV_Test')]",
+				"[concat(variables('factoryId'), '/integrationRuntimes/integrationRuntime1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Test The App')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "App Service",
+						"type": "WebActivity",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"url": "https://keyvaultlab1.vault.azure.net/secrets/password/03e1291872d246ed9fc3e8504d79a4ee?api-version=7.0",
+							"connectVia": {
+								"referenceName": "integrationRuntime1",
+								"type": "IntegrationRuntimeReference"
+							},
+							"method": "GET",
+							"headers": {},
+							"linkedServices": [
+								{
+									"referenceName": "AKV_Test",
+									"type": "LinkedServiceReference"
+								}
+							],
+							"authentication": {
+								"type": "MSI",
+								"resource": "https://vault.azure.net"
+							}
+						}
+					},
+					{
+						"name": "Set variable1",
+						"type": "SetVariable",
+						"dependsOn": [
+							{
+								"activity": "Wait1",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"variableName": "myVariable",
+							"value": {
+								"value": "@activity('App Service').output.value",
+								"type": "Expression"
+							}
+						}
+					},
+					{
+						"name": "Wait1",
+						"type": "Wait",
+						"dependsOn": [
+							{
+								"activity": "App Service",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [
+							{
+								"name": "myVariableWait"
+							}
+						],
+						"typeProperties": {
+							"waitTimeInSeconds": 10
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"variables": {
+					"myVariable": {
+						"type": "String",
+						"defaultValue": "@activity('App Service').output.value"
 					}
 				},
 				"annotations": []
