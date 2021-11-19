@@ -44,12 +44,14 @@
 						]
 					}
 				],
-				"userProperties": [
-					{
-						"name": "myVariable",
-						"value": "@activity('App Service').output.value"
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "myVariable",
+					"value": {
+						"value": "@activity('Web1').output.value",
+						"type": "Expression"
 					}
-				]
+				}
 			},
 			{
 				"name": "Wait1",
