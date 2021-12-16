@@ -11,6 +11,10 @@
 			"type": "string",
 			"defaultValue": "https://keyvaultlab1.vault.azure.net/"
 		},
+		"trigger1_properties_typeProperties_scope": {
+			"type": "string",
+			"defaultValue": "/subscriptions/2ca69f6a-bdaf-49aa-a407-7b487eed4bf5/resourceGroups/Cloud-BI-Testing-DEV/providers/Microsoft.Storage/storageAccounts/strgaccountdevadf"
+		},
 		"containerUri": {
 			"type": "string",
 			"metadata": "URI to storage account containing linked ARM templates"
@@ -40,6 +44,9 @@
 					},
 					"AKV_Test_properties_typeProperties_baseUrl": {
 						"value": "[parameters('AKV_Test_properties_typeProperties_baseUrl')]"
+					},
+					"trigger1_properties_typeProperties_scope": {
+						"value": "[parameters('trigger1_properties_typeProperties_scope')]"
 					}
 				}
 			},
