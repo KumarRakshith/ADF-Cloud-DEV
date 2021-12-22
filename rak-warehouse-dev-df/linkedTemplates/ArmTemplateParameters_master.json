@@ -5,17 +5,8 @@
 		"factoryName": {
 			"value": "rak-warehouse-dev-df"
 		},
-		"FileServer1_password": {
-			"value": ""
-		},
 		"AKV_Test_properties_typeProperties_baseUrl": {
 			"value": "https://keyvaultlab1.vault.azure.net/"
-		},
-		"FileServer1_properties_typeProperties_host": {
-			"value": "C:\\Change"
-		},
-		"FileServer1_properties_typeProperties_userId": {
-			"value": "CORP\\rakshitk"
 		},
 		"blobtrigger_properties_typeProperties_scope": {
 			"value": "/subscriptions/2ca69f6a-bdaf-49aa-a407-7b487eed4bf5/resourceGroups/rak-workshop-arm/providers/Microsoft.Storage/storageAccounts/strgaccountdevadf"
