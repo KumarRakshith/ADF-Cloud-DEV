@@ -15,6 +15,10 @@
 			"type": "string",
 			"defaultValue": "/subscriptions/2ca69f6a-bdaf-49aa-a407-7b487eed4bf5/resourceGroups/rak-workshop-arm/providers/Microsoft.Storage/storageAccounts/strgaccountdevadf"
 		},
+		"Linked-Self-Hosted-RunTime_properties_typeProperties_linkedInfo_resourceId": {
+			"type": "string",
+			"defaultValue": "/subscriptions/05284a4d-7087-4dc1-ab12-8304163e3dec/resourcegroups/Cloud-BI-Testing/providers/Microsoft.DataFactory/factories/rak-warehouse-sih-df/integrationruntimes/Self-Hosted-IntegrationRunTime-44"
+		},
 		"containerUri": {
 			"type": "string",
 			"metadata": "URI to storage account containing linked ARM templates"
@@ -47,6 +51,9 @@
 					},
 					"blobtrigger_properties_typeProperties_scope": {
 						"value": "[parameters('blobtrigger_properties_typeProperties_scope')]"
+					},
+					"Linked-Self-Hosted-RunTime_properties_typeProperties_linkedInfo_resourceId": {
+						"value": "[parameters('Linked-Self-Hosted-RunTime_properties_typeProperties_linkedInfo_resourceId')]"
 					}
 				}
 			},
