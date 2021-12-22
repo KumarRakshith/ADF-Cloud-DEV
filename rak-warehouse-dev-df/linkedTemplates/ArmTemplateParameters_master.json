@@ -14,6 +14,12 @@
 		"Linked-Self-Hosted-RunTime_properties_typeProperties_linkedInfo_resourceId": {
 			"value": "/subscriptions/05284a4d-7087-4dc1-ab12-8304163e3dec/resourcegroups/Cloud-BI-Testing/providers/Microsoft.DataFactory/factories/rak-warehouse-sih-df/integrationruntimes/Self-Hosted-IntegrationRunTime-44"
 		},
+		"LnkSR_File_Server_properties_typeProperties_host": {
+			"value": "D:\\DevOps\\Self-Hosted-Integration-RunTime\\File_Test"
+		},
+		"LnkSR_File_Server_properties_typeProperties_userId": {
+			"value": "CORP\\ADM-IN-DEVOPS"
+		},
 		"containerUri": {
 			"value": ""
 		},

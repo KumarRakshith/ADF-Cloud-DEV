@@ -18,6 +18,14 @@
 		"Linked-Self-Hosted-RunTime_properties_typeProperties_linkedInfo_resourceId": {
 			"type": "string",
 			"defaultValue": "/subscriptions/05284a4d-7087-4dc1-ab12-8304163e3dec/resourcegroups/Cloud-BI-Testing/providers/Microsoft.DataFactory/factories/rak-warehouse-sih-df/integrationruntimes/Self-Hosted-IntegrationRunTime-44"
+		},
+		"LnkSR_File_Server_properties_typeProperties_host": {
+			"type": "string",
+			"defaultValue": "D:\\DevOps\\Self-Hosted-Integration-RunTime\\File_Test"
+		},
+		"LnkSR_File_Server_properties_typeProperties_userId": {
+			"type": "string",
+			"defaultValue": "CORP\\ADM-IN-DEVOPS"
 		}
 	},
 	"variables": {
@@ -45,7 +53,8 @@
 					"elapsedTimeMetric": {},
 					"cancelAfter": {}
 				},
-				"annotations": []
+				"annotations": [],
+				"lastPublishTime": "2021-12-22T08:15:14Z"
 			},
 			"dependsOn": []
 		},
@@ -203,7 +212,8 @@
 						"defaultValue": "@activity('App Service').output.value"
 					}
 				},
-				"annotations": []
+				"annotations": [],
+				"lastPublishTime": "2021-12-22T08:15:15Z"
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/AKV_Test')]",
@@ -288,11 +298,41 @@
 						"defaultValue": "@activity('Web1').output.value"
 					}
 				},
-				"annotations": []
+				"annotations": [],
+				"lastPublishTime": "2021-12-22T08:15:15Z"
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/AKV_Test')]",
 				"[concat(variables('factoryId'), '/integrationRuntimes/integrationRuntime1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/LnkSR_File_Server')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "FileServer",
+				"typeProperties": {
+					"host": "[parameters('LnkSR_File_Server_properties_typeProperties_host')]",
+					"userId": "[parameters('LnkSR_File_Server_properties_typeProperties_userId')]",
+					"password": {
+						"type": "AzureKeyVaultSecret",
+						"store": {
+							"referenceName": "AKV_Test",
+							"type": "LinkedServiceReference"
+						},
+						"secretName": "VMPassword"
+					}
+				},
+				"connectVia": {
+					"referenceName": "Linked-Self-Hosted-RunTime",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/integrationRuntimes/Linked-Self-Hosted-RunTime')]",
+				"[concat(variables('factoryId'), '/linkedServices/AKV_Test')]"
 			]
 		},
 		{
