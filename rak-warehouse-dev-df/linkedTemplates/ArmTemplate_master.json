@@ -15,10 +15,6 @@
 			"type": "string",
 			"defaultValue": "https://keyvaultlab1.vault.azure.net/"
 		},
-		"blobtrigger_properties_typeProperties_scope": {
-			"type": "string",
-			"defaultValue": "/subscriptions/2ca69f6a-bdaf-49aa-a407-7b487eed4bf5/resourceGroups/rak-workshop-arm/providers/Microsoft.Storage/storageAccounts/strgaccountdevadf"
-		},
 		"FileServer1_properties_typeProperties_host": {
 			"type": "string",
 			"defaultValue": "C:\\Change"
@@ -26,6 +22,10 @@
 		"FileServer1_properties_typeProperties_userId": {
 			"type": "string",
 			"defaultValue": "CORP\\rakshitk"
+		},
+		"blobtrigger_properties_typeProperties_scope": {
+			"type": "string",
+			"defaultValue": "/subscriptions/2ca69f6a-bdaf-49aa-a407-7b487eed4bf5/resourceGroups/rak-workshop-arm/providers/Microsoft.Storage/storageAccounts/strgaccountdevadf"
 		},
 		"containerUri": {
 			"type": "string",
