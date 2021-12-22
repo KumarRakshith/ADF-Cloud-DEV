@@ -1,0 +1,23 @@
+{
+	"name": "Excel_Data",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LnkSR_File_Server",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Excel",
+		"typeProperties": {
+			"sheetName": "Sheet1",
+			"location": {
+				"type": "FileServerLocation",
+				"fileName": "Book1.xlsx"
+			}
+		},
+		"schema": [
+			{
+				"type": "String"
+			}
+		]
+	}
+}
