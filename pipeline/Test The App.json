@@ -76,6 +76,8 @@
 				"defaultValue": "@activity('App Service').output.value"
 			}
 		},
-		"annotations": []
-	}
+		"annotations": [],
+		"lastPublishTime": "2021-12-22T08:15:15Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
 }
