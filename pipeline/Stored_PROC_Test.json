@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Stored procedure1",
+				"name": "SP_Account",
 				"type": "SqlServerStoredProcedure",
 				"dependsOn": [],
 				"policy": {
