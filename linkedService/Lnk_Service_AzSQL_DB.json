@@ -1,0 +1,14 @@
+{
+	"name": "Lnk_Service_AzSQL_DB",
+	"properties": {
+		"annotations": [],
+		"type": "AzureSqlDatabase",
+		"typeProperties": {
+			"connectionString": "Integrated Security=False;Encrypt=True;Connection Timeout=30;Data Source=rak-azsqlserver-dev.database.windows.net;Initial Catalog=synpdwh-dev"
+		},
+		"connectVia": {
+			"referenceName": "Linked-Self-Hosted-RunTime",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}
