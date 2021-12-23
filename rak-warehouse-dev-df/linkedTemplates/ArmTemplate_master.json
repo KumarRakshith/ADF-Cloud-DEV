@@ -7,17 +7,13 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "rak-warehouse-dev-df"
 		},
+		"AzureSqlDatabase1_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'AzureSqlDatabase1'"
+		},
 		"AKV_Test_properties_typeProperties_baseUrl": {
 			"type": "string",
 			"defaultValue": "https://keyvaultlab1.vault.azure.net/"
-		},
-		"blobtrigger_properties_typeProperties_scope": {
-			"type": "string",
-			"defaultValue": "/subscriptions/2ca69f6a-bdaf-49aa-a407-7b487eed4bf5/resourceGroups/rak-workshop-arm/providers/Microsoft.Storage/storageAccounts/strgaccountdevadf"
-		},
-		"Linked-Self-Hosted-RunTime_properties_typeProperties_linkedInfo_resourceId": {
-			"type": "string",
-			"defaultValue": "/subscriptions/05284a4d-7087-4dc1-ab12-8304163e3dec/resourcegroups/Cloud-BI-Testing/providers/Microsoft.DataFactory/factories/rak-warehouse-sih-df/integrationruntimes/Self-Hosted-IntegrationRunTime-44"
 		},
 		"LnkSR_File_Server_properties_typeProperties_host": {
 			"type": "string",
@@ -26,6 +22,14 @@
 		"LnkSR_File_Server_properties_typeProperties_userId": {
 			"type": "string",
 			"defaultValue": "CORP\\ADM-IN-DEVOPS"
+		},
+		"blobtrigger_properties_typeProperties_scope": {
+			"type": "string",
+			"defaultValue": "/subscriptions/2ca69f6a-bdaf-49aa-a407-7b487eed4bf5/resourceGroups/rak-workshop-arm/providers/Microsoft.Storage/storageAccounts/strgaccountdevadf"
+		},
+		"Linked-Self-Hosted-RunTime_properties_typeProperties_linkedInfo_resourceId": {
+			"type": "string",
+			"defaultValue": "/subscriptions/05284a4d-7087-4dc1-ab12-8304163e3dec/resourcegroups/Cloud-BI-Testing/providers/Microsoft.DataFactory/factories/rak-warehouse-sih-df/integrationruntimes/Self-Hosted-IntegrationRunTime-44"
 		},
 		"containerUri": {
 			"type": "string",
@@ -53,6 +57,9 @@
 				"parameters": {
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
+					},
+					"AzureSqlDatabase1_connectionString": {
+						"value": "[parameters('AzureSqlDatabase1_connectionString')]"
 					},
 					"AKV_Test_properties_typeProperties_baseUrl": {
 						"value": "[parameters('AKV_Test_properties_typeProperties_baseUrl')]"

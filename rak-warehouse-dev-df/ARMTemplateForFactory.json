@@ -7,17 +7,13 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "rak-warehouse-dev-df"
 		},
+		"AzureSqlDatabase1_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'AzureSqlDatabase1'"
+		},
 		"AKV_Test_properties_typeProperties_baseUrl": {
 			"type": "string",
 			"defaultValue": "https://keyvaultlab1.vault.azure.net/"
-		},
-		"blobtrigger_properties_typeProperties_scope": {
-			"type": "string",
-			"defaultValue": "/subscriptions/2ca69f6a-bdaf-49aa-a407-7b487eed4bf5/resourceGroups/rak-workshop-arm/providers/Microsoft.Storage/storageAccounts/strgaccountdevadf"
-		},
-		"Linked-Self-Hosted-RunTime_properties_typeProperties_linkedInfo_resourceId": {
-			"type": "string",
-			"defaultValue": "/subscriptions/05284a4d-7087-4dc1-ab12-8304163e3dec/resourcegroups/Cloud-BI-Testing/providers/Microsoft.DataFactory/factories/rak-warehouse-sih-df/integrationruntimes/Self-Hosted-IntegrationRunTime-44"
 		},
 		"LnkSR_File_Server_properties_typeProperties_host": {
 			"type": "string",
@@ -26,12 +22,97 @@
 		"LnkSR_File_Server_properties_typeProperties_userId": {
 			"type": "string",
 			"defaultValue": "CORP\\ADM-IN-DEVOPS"
+		},
+		"blobtrigger_properties_typeProperties_scope": {
+			"type": "string",
+			"defaultValue": "/subscriptions/2ca69f6a-bdaf-49aa-a407-7b487eed4bf5/resourceGroups/rak-workshop-arm/providers/Microsoft.Storage/storageAccounts/strgaccountdevadf"
+		},
+		"Linked-Self-Hosted-RunTime_properties_typeProperties_linkedInfo_resourceId": {
+			"type": "string",
+			"defaultValue": "/subscriptions/05284a4d-7087-4dc1-ab12-8304163e3dec/resourcegroups/Cloud-BI-Testing/providers/Microsoft.DataFactory/factories/rak-warehouse-sih-df/integrationruntimes/Self-Hosted-IntegrationRunTime-44"
 		}
 	},
 	"variables": {
 		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
 	},
 	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/Copy Excel Files')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copy data Files",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "ExcelSource",
+								"storeSettings": {
+									"type": "FileServerReadSettings",
+									"recursive": true,
+									"modifiedDatetimeStart": "2021-12-22T00:00:00.000Z",
+									"modifiedDatetimeEnd": "2021-12-31T00:00:00.000Z",
+									"enablePartitionDiscovery": false
+								}
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "FileServerWriteSettings"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSettings",
+									"quoteAllText": true,
+									"fileExtension": ".txt"
+								}
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "Excel_Data",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "CommaSV_Dataset",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/Excel_Data')]",
+				"[concat(variables('factoryId'), '/datasets/CommaSV_Dataset')]"
+			]
+		},
 		{
 			"name": "[concat(parameters('factoryName'), '/Test The App')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
@@ -238,6 +319,64 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/CommaSV_Dataset')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LnkSR_File_Server",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "FileServerLocation",
+						"fileName": "Book1.csv"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LnkSR_File_Server')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Excel_Data')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LnkSR_File_Server",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Excel",
+				"typeProperties": {
+					"sheetName": "Sheet1",
+					"location": {
+						"type": "FileServerLocation",
+						"fileName": "Book1.xlsx"
+					}
+				},
+				"schema": [
+					{
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LnkSR_File_Server')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/AKV_Test')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
@@ -249,6 +388,48 @@
 				}
 			},
 			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureSqlDatabase1')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureSqlDatabase",
+				"typeProperties": {
+					"connectionString": "[parameters('AzureSqlDatabase1_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/LnkSR_File_Server')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "FileServer",
+				"typeProperties": {
+					"host": "[parameters('LnkSR_File_Server_properties_typeProperties_host')]",
+					"userId": "[parameters('LnkSR_File_Server_properties_typeProperties_userId')]",
+					"password": {
+						"type": "AzureKeyVaultSecret",
+						"store": {
+							"referenceName": "AKV_Test",
+							"type": "LinkedServiceReference"
+						},
+						"secretName": "VMPassword"
+					}
+				},
+				"connectVia": {
+					"referenceName": "Linked-Self-Hosted-RunTime",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/integrationRuntimes/Linked-Self-Hosted-RunTime')]",
+				"[concat(variables('factoryId'), '/linkedServices/AKV_Test')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/Test-AzDo-Dev')]",
@@ -352,170 +533,6 @@
 				}
 			},
 			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/LnkSR_File_Server')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "FileServer",
-				"typeProperties": {
-					"host": "[parameters('LnkSR_File_Server_properties_typeProperties_host')]",
-					"userId": "[parameters('LnkSR_File_Server_properties_typeProperties_userId')]",
-					"password": {
-						"type": "AzureKeyVaultSecret",
-						"store": {
-							"referenceName": "AKV_Test",
-							"type": "LinkedServiceReference"
-						},
-						"secretName": "VMPassword"
-					}
-				},
-				"connectVia": {
-					"referenceName": "Linked-Self-Hosted-RunTime",
-					"type": "IntegrationRuntimeReference"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/integrationRuntimes/Linked-Self-Hosted-RunTime')]",
-				"[concat(variables('factoryId'), '/linkedServices/AKV_Test')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/Copy Excel Files')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "Copy data Files",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "ExcelSource",
-								"storeSettings": {
-									"type": "FileServerReadSettings",
-									"recursive": true,
-									"modifiedDatetimeStart": "2021-12-22T00:00:00.000Z",
-									"modifiedDatetimeEnd": "2021-12-31T00:00:00.000Z",
-									"enablePartitionDiscovery": false
-								}
-							},
-							"sink": {
-								"type": "DelimitedTextSink",
-								"storeSettings": {
-									"type": "FileServerWriteSettings"
-								},
-								"formatSettings": {
-									"type": "DelimitedTextWriteSettings",
-									"quoteAllText": true,
-									"fileExtension": ".txt"
-								}
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
-								}
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "Excel_Data",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "CommaSV_Dataset",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {},
-					"cancelAfter": {}
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/Excel_Data')]",
-				"[concat(variables('factoryId'), '/datasets/CommaSV_Dataset')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/Excel_Data')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "LnkSR_File_Server",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "Excel",
-				"typeProperties": {
-					"sheetName": "Sheet1",
-					"location": {
-						"type": "FileServerLocation",
-						"fileName": "Book1.xlsx"
-					}
-				},
-				"schema": [
-					{
-						"type": "String"
-					}
-				]
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/LnkSR_File_Server')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/CommaSV_Dataset')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "LnkSR_File_Server",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "FileServerLocation",
-						"fileName": "Book1.csv"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"quoteChar": "\""
-				},
-				"schema": [
-					{
-						"type": "String"
-					}
-				]
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/LnkSR_File_Server')]"
-			]
 		}
 	]
 }
