@@ -14,7 +14,7 @@
 		"type": "ScheduleTrigger",
 		"typeProperties": {
 			"recurrence": {
-				"frequency": "Day",
+				"frequency": "Week",
 				"interval": 1,
 				"startTime": "2021-11-17T06:58:00",
 				"timeZone": "India Standard Time",
@@ -24,6 +24,15 @@
 					],
 					"hours": [
 						23
+					],
+					"weekDays": [
+						"Sunday",
+						"Monday",
+						"Tuesday",
+						"Wednesday",
+						"Thursday",
+						"Friday",
+						"Saturday"
 					]
 				}
 			}

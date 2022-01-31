@@ -20,8 +20,8 @@
 						"storeSettings": {
 							"type": "FileServerReadSettings",
 							"recursive": true,
-							"modifiedDatetimeStart": "2021-12-22T00:00:00.000Z",
-							"modifiedDatetimeEnd": "2021-12-31T00:00:00.000Z",
+							"modifiedDatetimeStart": "2021-12-22T00:00:00Z",
+							"modifiedDatetimeEnd": "2021-12-31T00:00:00Z",
 							"enablePartitionDiscovery": false
 						}
 					},
@@ -60,6 +60,8 @@
 				]
 			}
 		],
-		"annotations": []
-	}
+		"annotations": [],
+		"lastPublishTime": "2021-12-24T10:30:31Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
 }
