@@ -14,10 +14,6 @@
 		"blobtrigger_properties_typeProperties_scope": {
 			"type": "string",
 			"defaultValue": "/subscriptions/2ca69f6a-bdaf-49aa-a407-7b487eed4bf5/resourceGroups/rak-workshop-arm/providers/Microsoft.Storage/storageAccounts/strgaccountdevadf"
-		},
-		"Linked-Self-Hosted-RunTime_properties_typeProperties_linkedInfo_resourceId": {
-			"type": "string",
-			"defaultValue": "/subscriptions/05284a4d-7087-4dc1-ab12-8304163e3dec/resourcegroups/Cloud-BI-Testing/providers/Microsoft.DataFactory/factories/rak-warehouse-sih-df/integrationruntimes/Self-Hosted-IntegrationRunTime-44"
 		}
 	},
 	"variables": {
@@ -110,7 +106,7 @@
 					}
 				},
 				"annotations": [],
-				"lastPublishTime": "2022-10-27T11:56:15Z"
+				"lastPublishTime": "2022-10-27T12:16:42Z"
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/AKV_Test')]",
@@ -139,7 +135,7 @@
 					"cancelAfter": {}
 				},
 				"annotations": [],
-				"lastPublishTime": "2022-10-27T11:56:15Z"
+				"lastPublishTime": "2022-10-27T12:16:42Z"
 			},
 			"dependsOn": []
 		},
@@ -222,7 +218,7 @@
 					}
 				},
 				"annotations": [],
-				"lastPublishTime": "2022-10-27T11:56:15Z"
+				"lastPublishTime": "2022-10-27T12:16:42Z"
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/AKV_Test')]",
@@ -236,7 +232,7 @@
 			"properties": {
 				"activities": [
 					{
-						"name": "Test2",
+						"name": "Test",
 						"type": "Wait",
 						"dependsOn": [],
 						"userProperties": [],
@@ -250,7 +246,7 @@
 					"cancelAfter": {}
 				},
 				"annotations": [],
-				"lastPublishTime": "2022-10-27T12:07:55Z"
+				"lastPublishTime": "2022-10-27T12:16:42Z"
 			},
 			"dependsOn": []
 		},
@@ -331,21 +327,6 @@
 					"events": [
 						"Microsoft.Storage.BlobCreated"
 					]
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/Linked-Self-Hosted-RunTime')]",
-			"type": "Microsoft.DataFactory/factories/integrationRuntimes",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"type": "SelfHosted",
-				"typeProperties": {
-					"linkedInfo": {
-						"resourceId": "[parameters('Linked-Self-Hosted-RunTime_properties_typeProperties_linkedInfo_resourceId')]",
-						"authorizationType": "Rbac"
-					}
 				}
 			},
 			"dependsOn": []
