@@ -1,10 +1,9 @@
 {
-	"name": "Wait Pipeline 2",
+	"name": "pipeline1",
 	"properties": {
 		"activities": [
 			{
-				"name": "Wait-Test-AzDo-2",
-				"description": "Added a New Pipeline",
+				"name": "Wait2",
 				"type": "Wait",
 				"dependsOn": [],
 				"userProperties": [],
@@ -14,7 +13,7 @@
 			}
 		],
 		"annotations": [],
-		"lastPublishTime": "2022-10-27T11:56:15Z"
+		"lastPublishTime": "2022-10-27T12:07:55Z"
 	},
 	"type": "Microsoft.DataFactory/factories/pipelines"
 }
