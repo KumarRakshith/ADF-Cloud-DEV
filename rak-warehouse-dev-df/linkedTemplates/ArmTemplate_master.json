@@ -7,21 +7,9 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "rak-warehouse-dev-df"
 		},
-		"Lnk_Service_AzSQL_DB_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'Lnk_Service_AzSQL_DB'"
-		},
 		"AKV_Test_properties_typeProperties_baseUrl": {
 			"type": "string",
 			"defaultValue": "https://keyvaultlab1.vault.azure.net/"
-		},
-		"LnkSR_File_Server_properties_typeProperties_host": {
-			"type": "string",
-			"defaultValue": "D:\\DevOps\\Self-Hosted-Integration-RunTime\\File_Test"
-		},
-		"LnkSR_File_Server_properties_typeProperties_userId": {
-			"type": "string",
-			"defaultValue": "CORP\\ADM-IN-DEVOPS"
 		},
 		"blobtrigger_properties_typeProperties_scope": {
 			"type": "string",
@@ -58,9 +46,6 @@
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
 					},
-					"Lnk_Service_AzSQL_DB_connectionString": {
-						"value": "[parameters('Lnk_Service_AzSQL_DB_connectionString')]"
-					},
 					"AKV_Test_properties_typeProperties_baseUrl": {
 						"value": "[parameters('AKV_Test_properties_typeProperties_baseUrl')]"
 					},
@@ -69,12 +54,6 @@
 					},
 					"Linked-Self-Hosted-RunTime_properties_typeProperties_linkedInfo_resourceId": {
 						"value": "[parameters('Linked-Self-Hosted-RunTime_properties_typeProperties_linkedInfo_resourceId')]"
-					},
-					"LnkSR_File_Server_properties_typeProperties_host": {
-						"value": "[parameters('LnkSR_File_Server_properties_typeProperties_host')]"
-					},
-					"LnkSR_File_Server_properties_typeProperties_userId": {
-						"value": "[parameters('LnkSR_File_Server_properties_typeProperties_userId')]"
 					}
 				}
 			},

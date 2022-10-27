@@ -7,21 +7,9 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "rak-warehouse-dev-df"
 		},
-		"Lnk_Service_AzSQL_DB_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'Lnk_Service_AzSQL_DB'"
-		},
 		"AKV_Test_properties_typeProperties_baseUrl": {
 			"type": "string",
 			"defaultValue": "https://keyvaultlab1.vault.azure.net/"
-		},
-		"LnkSR_File_Server_properties_typeProperties_host": {
-			"type": "string",
-			"defaultValue": "D:\\DevOps\\Self-Hosted-Integration-RunTime\\File_Test"
-		},
-		"LnkSR_File_Server_properties_typeProperties_userId": {
-			"type": "string",
-			"defaultValue": "CORP\\ADM-IN-DEVOPS"
 		},
 		"blobtrigger_properties_typeProperties_scope": {
 			"type": "string",
@@ -36,142 +24,6 @@
 		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
 	},
 	"resources": [
-		{
-			"name": "[concat(parameters('factoryName'), '/Copy Excel Files')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "Copy data Files",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "ExcelSource",
-								"storeSettings": {
-									"type": "FileServerReadSettings",
-									"recursive": true,
-									"modifiedDatetimeStart": "2021-12-22T00:00:00Z",
-									"modifiedDatetimeEnd": "2021-12-31T00:00:00Z",
-									"enablePartitionDiscovery": false
-								}
-							},
-							"sink": {
-								"type": "DelimitedTextSink",
-								"storeSettings": {
-									"type": "FileServerWriteSettings"
-								},
-								"formatSettings": {
-									"type": "DelimitedTextWriteSettings",
-									"quoteAllText": true,
-									"fileExtension": ".txt"
-								}
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
-								}
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "Excel_Data",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "CommaSV_Dataset",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {},
-					"cancelAfter": {}
-				},
-				"annotations": [],
-				"lastPublishTime": "2021-12-24T10:30:31Z"
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/Excel_Data')]",
-				"[concat(variables('factoryId'), '/datasets/CommaSV_Dataset')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/Stored_PROC_Test')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "SP_Account",
-						"type": "SqlServerStoredProcedure",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"storedProcedureName": "[[dbo].[Usp_ExceptionLog]",
-							"storedProcedureParameters": {
-								"PipelineName": {
-									"value": {
-										"value": "@pipeline().Pipeline",
-										"type": "Expression"
-									},
-									"type": "String"
-								},
-								"runid": {
-									"value": {
-										"value": "@pipeline().RunId",
-										"type": "Expression"
-									},
-									"type": "String"
-								},
-								"TableName": {
-									"value": "Persons",
-									"type": "String"
-								}
-							}
-						},
-						"linkedServiceName": {
-							"referenceName": "Lnk_Service_AzSQL_DB",
-							"type": "LinkedServiceReference"
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {},
-					"cancelAfter": {}
-				},
-				"annotations": [],
-				"lastPublishTime": "2021-12-24T10:30:34Z"
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/Lnk_Service_AzSQL_DB')]"
-			]
-		},
 		{
 			"name": "[concat(parameters('factoryName'), '/Test The App')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
@@ -258,7 +110,7 @@
 					}
 				},
 				"annotations": [],
-				"lastPublishTime": "2021-12-24T10:30:28Z"
+				"lastPublishTime": "2022-10-27T11:56:15Z"
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/AKV_Test')]",
@@ -287,7 +139,7 @@
 					"cancelAfter": {}
 				},
 				"annotations": [],
-				"lastPublishTime": "2021-12-24T10:30:28Z"
+				"lastPublishTime": "2022-10-27T11:56:15Z"
 			},
 			"dependsOn": []
 		},
@@ -370,7 +222,7 @@
 					}
 				},
 				"annotations": [],
-				"lastPublishTime": "2021-12-24T10:30:28Z"
+				"lastPublishTime": "2022-10-27T11:56:15Z"
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/AKV_Test')]",
@@ -378,105 +230,29 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/AzSQL_SynpDWH')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
+			"name": "[concat(parameters('factoryName'), '/pipeline1')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
-				"linkedServiceName": {
-					"referenceName": "Lnk_Service_AzSQL_DB",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [
+				"activities": [
 					{
-						"name": "PersonID",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "LastName",
-						"type": "varchar"
-					},
-					{
-						"name": "FirstName",
-						"type": "varchar"
-					},
-					{
-						"name": "Address",
-						"type": "varchar"
-					},
-					{
-						"name": "City",
-						"type": "varchar"
+						"name": "Test2",
+						"type": "Wait",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"waitTimeInSeconds": 1
+						}
 					}
 				],
-				"typeProperties": {
-					"schema": "dbo",
-					"table": "Persons"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/Lnk_Service_AzSQL_DB')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/CommaSV_Dataset')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "LnkSR_File_Server",
-					"type": "LinkedServiceReference"
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
 				},
 				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "FileServerLocation",
-						"fileName": "Book1.csv"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"quoteChar": "\""
-				},
-				"schema": [
-					{
-						"type": "String"
-					}
-				]
+				"lastPublishTime": "2022-10-27T12:07:55Z"
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/LnkSR_File_Server')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/Excel_Data')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "LnkSR_File_Server",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "Excel",
-				"typeProperties": {
-					"sheetName": "Sheet1",
-					"location": {
-						"type": "FileServerLocation",
-						"fileName": "Book1.xlsx"
-					}
-				},
-				"schema": [
-					{
-						"type": "String"
-					}
-				]
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/LnkSR_File_Server')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/AKV_Test')]",
@@ -492,60 +268,12 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/LnkSR_File_Server')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "FileServer",
-				"typeProperties": {
-					"host": "[parameters('LnkSR_File_Server_properties_typeProperties_host')]",
-					"userId": "[parameters('LnkSR_File_Server_properties_typeProperties_userId')]",
-					"password": {
-						"type": "AzureKeyVaultSecret",
-						"store": {
-							"referenceName": "AKV_Test",
-							"type": "LinkedServiceReference"
-						},
-						"secretName": "VMPassword"
-					}
-				},
-				"connectVia": {
-					"referenceName": "Linked-Self-Hosted-RunTime",
-					"type": "IntegrationRuntimeReference"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/integrationRuntimes/Linked-Self-Hosted-RunTime')]",
-				"[concat(variables('factoryId'), '/linkedServices/AKV_Test')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/Lnk_Service_AzSQL_DB')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzureSqlDatabase",
-				"typeProperties": {
-					"connectionString": "[parameters('Lnk_Service_AzSQL_DB_connectionString')]"
-				},
-				"connectVia": {
-					"referenceName": "Linked-Self-Hosted-RunTime",
-					"type": "IntegrationRuntimeReference"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/integrationRuntimes/Linked-Self-Hosted-RunTime')]"
-			]
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/Test-AzDo-Dev')]",
 			"type": "Microsoft.DataFactory/factories/triggers",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"annotations": [],
-				"runtimeState": "Started",
+				"runtimeState": "Stopped",
 				"pipelines": [
 					{
 						"pipelineReference": {
