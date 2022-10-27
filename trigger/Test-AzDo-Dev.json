@@ -2,7 +2,7 @@
 	"name": "Test-AzDo-Dev",
 	"properties": {
 		"annotations": [],
-		"runtimeState": "Started",
+		"runtimeState": "Stopped",
 		"pipelines": [
 			{
 				"pipelineReference": {
